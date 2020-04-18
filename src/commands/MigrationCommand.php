@@ -26,19 +26,9 @@ class MigrationCommand extends Command
      * @var string
      */
     protected $description = 'Creates a migration following the Entrust specifications.';
-   
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
-    public function fire()
-    {
-        $this->handle();
-    }
 
     /**
-     * Execute the console command for Laravel 5.5+.
+     * Execute the console command.
      *
      * @return void
      */
@@ -91,10 +81,10 @@ class MigrationCommand extends Command
     {
         $migrationFile = base_path("/database/migrations")."/".date('Y_m_d_His')."_entrust_setup_tables.php";
 
-        $userModelName = Config::get('auth.providers.users.model');
-        $userModel = new $userModelName();
-        $usersTable = $userModel->getTable();
+        $userModel = Config::get('auth.providers.users.model');
+        $userModel = new $userModel;
         $userKeyName = $userModel->getKeyName();
+        $usersTable  = $userModel->getTable();
 
         $data = compact('rolesTable', 'roleUserTable', 'permissionsTable', 'permissionRoleTable', 'usersTable', 'userKeyName');
 

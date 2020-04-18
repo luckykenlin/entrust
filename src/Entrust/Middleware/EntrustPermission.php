@@ -13,8 +13,6 @@ use Illuminate\Contracts\Auth\Guard;
 
 class EntrustPermission
 {
-	const DELIMITER = '|';
-
 	protected $auth;
 
 	/**
@@ -37,11 +35,7 @@ class EntrustPermission
 	 */
 	public function handle($request, Closure $next, $permissions)
 	{
-		if (!is_array($permissions)) {
-			$permissions = explode(self::DELIMITER, $permissions);
-		}
-
-		if ($this->auth->guest() || !$request->user()->can($permissions)) {
+		if ($this->auth->guest() || !$request->user()->can(explode('|', $permissions))) {
 			abort(403);
 		}
 
